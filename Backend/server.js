@@ -4,6 +4,7 @@ const cors = require('cors');
 const app = express();
 const port = 3011;
 
+
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -188,4 +189,5 @@ app.get('/api/stats', async (req, res) => {
 // Start server
 app.listen(port, () => {
     console.log(`Server running at http://13.201.36.187:${port}`);
+
 });
