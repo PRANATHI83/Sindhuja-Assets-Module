@@ -3,46 +3,51 @@ version: '3.8'
 services:
   postgres:
     image: postgres:13
-    container_name: asset_postgres
+    container_name: postgres_assets
+    restart: always
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin1023
+      POSTGRES_PASSWORD: admin234
       POSTGRES_DB: asset_management
     ports:
-      - "5439:5432"
+      - "5442:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
   backend:
     build: ./Backend
-    container_name: asset_backend
+    container_name: backend_assets
+    restart: always
     depends_on:
       - postgres
     ports:
-      - "3008:3008"
+      - "3011:3011"
     environment:
-      - DB_HOST=postgres
-      - DB_USER=postgres
-      - DB_PASSWORD=admin1023
-      - DB_NAME=asset_management
-      - DB_PORT=5432
+      PGHOST: postgres
+      PGUSER: postgres
+      PGPASSWORD: admin234
+      PGDATABASE: asset_management
+      PGPORT: 5432
 
   employee-assets:
-    build: ./Employee-Assets
-    container_name: asset_employee
-    depends_on:
-      - backend
-    ports:
-      - "8015:80"
-
-  hr-assets:
-    build: ./HR-Assets
-    container_name: asset_hr
-    depends_on:
-      - backend
+    build: ./Employee-Assets   # 🔁 Corrected casing here
+    container_name: employee_assets_ui
     ports:
       - "8016:80"
+    restart: always
+    depends_on:
+      - backend
+
+  hr-assets:
+    build: ./HR-Assets   # 🔁 Corrected casing here
+    container_name: hr_assets_ui
+    ports:
+      - "8017:80"
+    restart: always
+    depends_on:
+      - backend
+
 
 volumes:
   postgres_data:
