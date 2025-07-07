@@ -7,10 +7,10 @@ services:
     restart: always
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin234
+      POSTGRES_PASSWORD: admin123
       POSTGRES_DB: asset_management
     ports:
-      - "5442:5432"
+      - "5203:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -22,11 +22,11 @@ services:
     depends_on:
       - postgres
     ports:
-      - "3011:3011"
+      - "3203:3203"
     environment:
       PGHOST: postgres
       PGUSER: postgres
-      PGPASSWORD: admin234
+      PGPASSWORD: admin123
       PGDATABASE: asset_management
       PGPORT: 5432
 
@@ -34,7 +34,7 @@ services:
     build: ./Employee-Assets   # 🔁 Corrected casing here
     container_name: employee_assets_ui
     ports:
-      - "8016:80"
+      - "8006:80"
     restart: always
     depends_on:
       - backend
@@ -43,7 +43,7 @@ services:
     build: ./HR-Assets   # 🔁 Corrected casing here
     container_name: hr_assets_ui
     ports:
-      - "8017:80"
+      - "8007:80"
     restart: always
     depends_on:
       - backend
